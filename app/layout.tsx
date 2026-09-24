@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import MobileActionBar from "@/components/MobileActionBar";
-import { getSiteSettings } from "@/lib/settings";
+import { DEFAULT_SETTINGS } from "@/lib/settings";
 import { SITE } from "@/lib/site";
 
 const bebas = Bebas_Neue({
@@ -14,41 +14,71 @@ const bebas = Bebas_Neue({
   display: "swap",
 });
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-body" });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+});
 
-export async function generateMetadata(): Promise<Metadata> {
-  const s = await getSiteSettings();
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-  return {
-    metadataBase: new URL(siteUrl),
-    title: {
-      default: s.seo_title,
-      template: `%s | ${s.brand_name}`,
-    },
-    description: s.seo_description,
-    keywords: [
-      "gym in Satellite Town",
-      "gym in Chevron Estate",
-      "fitness centre Satellite Town Lagos",
-      "gym Satellite Town Lagos",
-      "personal trainer Satellite Town",
+/*
+ * IMPORTANT:
+ * Keep root metadata independent from Supabase/cookies.
+ *
+ * The previous version called getSiteSettings() here.
+ * getSiteSettings() uses the Supabase server client, which uses
+ * cookies(). That can cause Next.js/Vercel prerendering problems,
+ * especially for /_not-found.
+ *
+ * The public site content can still use Supabase normally.
+ */
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+
+  title: {
+    default: DEFAULT_SETTINGS.seo_title,
+    template: `%s | ${DEFAULT_SETTINGS.brand_name}`,
+  },
+
+  description: DEFAULT_SETTINGS.seo_description,
+
+  keywords: [
+    "gym in Satellite Town",
+    "gym in Chevron Estate",
+    "fitness centre Satellite Town Lagos",
+    "gym Satellite Town Lagos",
+    "personal trainer Satellite Town",
+  ],
+
+  openGraph: {
+    title: DEFAULT_SETTINGS.seo_title,
+    description: DEFAULT_SETTINGS.seo_description,
+    type: "website",
+    locale: "en_NG",
+    siteName: DEFAULT_SETTINGS.brand_name,
+    images: [
+      {
+        url: "/images/Screenshot-2026-09-10-012048.webp",
+      },
     ],
-    openGraph: {
-      title: s.seo_title,
-      description: s.seo_description,
-      type: "website",
-      locale: "en_NG",
-      siteName: s.brand_name,
-      images: [{ url: "/images/Screenshot-2026-09-10-012048.webp" }],
-    },
-    twitter: { card: "summary_large_image" },
-    robots: { index: true, follow: true },
-  };
-}
+  },
+
+  twitter: {
+    card: "summary_large_image",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "HealthClub",
@@ -68,15 +98,26 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${bebas.variable} ${inter.variable}`}>
+    <html
+      lang="en"
+      className={`${bebas.variable} ${inter.variable}`}
+    >
       <body>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd),
+          }}
         />
+
         <Navbar />
-        <main className="min-h-screen">{children}</main>
+
+        <main className="min-h-screen">
+          {children}
+        </main>
+
         <Footer />
+
         <MobileActionBar />
       </body>
     </html>
