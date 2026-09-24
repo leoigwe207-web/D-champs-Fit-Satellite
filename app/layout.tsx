@@ -29,9 +29,14 @@ const inter = Inter({
  * especially for /_not-found.
  *
  * The public site content can still use Supabase normally.
+ *
+ * NEXT_PUBLIC_SITE_URL is optional. If Vercel does not have it set,
+ * use the real public Vercel domain instead of an empty string or
+ * localhost so metadataBase is always a valid production URL.
  */
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL?.trim() || "http://localhost:3000";
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+  "https://d-champs-fit-satellite.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
