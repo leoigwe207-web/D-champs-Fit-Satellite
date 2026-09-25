@@ -1,16 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import type { Plan } from "@/lib/demo-data";
 import { formatNaira } from "@/lib/site";
 
 type Step = 1 | 2 | 3;
 
-export default function JoinFlow({ plans }: { plans: Plan[] }) {
-  const params = useSearchParams();
-  const initialSlug = params.get("plan");
+export default function JoinFlow({
+  plans,
+  initialSlug,
+}: {
+  plans: Plan[];
+  initialSlug?: string;
+}) {
   const [step, setStep] = useState<Step>(initialSlug ? 2 : 1);
   const [plan, setPlan] = useState<Plan | null>(
     plans.find((p) => p.slug === initialSlug) ?? null
