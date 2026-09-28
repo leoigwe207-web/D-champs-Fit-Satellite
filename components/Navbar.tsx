@@ -102,7 +102,7 @@ export default function Navbar() {
         <button
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
-          className="flex h-10 w-10 items-center justify-center rounded-md border border-neutral-700 text-white lg:hidden"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-neutral-700 bg-black/40 text-white lg:hidden"
         >
           {open ? (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

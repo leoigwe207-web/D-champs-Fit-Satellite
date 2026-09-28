@@ -121,3 +121,661 @@ body {
   }
   html { scroll-behavior: auto; }
 }
+/* ================================================================
+   D'CHAMPS FIT — GYM X INSPIRED HOMEPAGE
+   Responsive UI
+================================================================ */
+
+.home-page {
+  background: #050505;
+  overflow: hidden;
+}
+
+/* HERO */
+
+.home-hero {
+  position: relative;
+  min-height: 720px;
+  height: 88svh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.home-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.92) 0%,
+      rgba(0, 0, 0, 0.62) 45%,
+      rgba(0, 0, 0, 0.28) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.9) 0%,
+      transparent 55%
+    );
+}
+
+.home-hero-content {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 90px;
+}
+
+.home-hero-title {
+  margin-top: 14px;
+  max-width: 760px;
+  color: white;
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 8vw, 8rem);
+  line-height: 0.86;
+  letter-spacing: 0.025em;
+}
+
+.home-hero-title span {
+  color: #d9a441;
+  font-size: 1.18em;
+}
+
+.home-hero-copy {
+  max-width: 550px;
+  margin-top: 26px;
+  color: #d4d4d4;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.home-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.home-hero-actions .btn-gold,
+.home-hero-actions .btn-outline {
+  min-width: 150px;
+}
+
+/* VALUE STRIP */
+
+.home-value-strip {
+  position: relative;
+  z-index: 3;
+  background: #0c0c0c;
+  border-top: 1px solid #222;
+  border-bottom: 1px solid #222;
+}
+
+.home-value-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.home-value-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 92px;
+  padding: 20px;
+  border-right: 1px solid #292929;
+}
+
+.home-value-item:last-child {
+  border-right: 0;
+}
+
+.home-value-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border: 1px solid #d9a441;
+  border-radius: 50%;
+  color: #d9a441;
+  font-size: 20px;
+}
+
+.home-value-item h3 {
+  color: white;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+}
+
+.home-value-item p {
+  margin-top: 2px;
+  color: #777;
+  font-size: 0.75rem;
+}
+
+/* GENERAL SECTIONS */
+
+.home-section {
+  padding: 90px 0;
+}
+
+.home-section-heading-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.home-view-link {
+  flex-shrink: 0;
+  color: #d9a441;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: color 0.2s ease;
+}
+
+.home-view-link:hover {
+  color: #f1d99b;
+}
+
+/* MEMBERSHIP */
+
+.home-plans-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 42px;
+}
+
+.home-plans-grid > div {
+  min-height: 300px;
+}
+
+/* FACILITIES */
+
+.home-facilities-section {
+  background: #090909;
+}
+
+.home-facilities-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-top: 42px;
+}
+
+.home-facility-card {
+  position: relative;
+  min-height: 210px;
+  overflow: hidden;
+  border: 1px solid #272727;
+  border-radius: 8px;
+  background: #111;
+}
+
+.home-facility-card:hover img {
+  transform: scale(1.06);
+}
+
+.home-facility-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.05) 70%
+    );
+}
+
+.home-facility-content {
+  position: absolute;
+  inset-inline: 14px;
+  bottom: 14px;
+  z-index: 2;
+}
+
+.home-facility-content span {
+  display: block;
+  color: white;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  letter-spacing: 0.05em;
+}
+
+.home-facility-content small {
+  display: block;
+  margin-top: 3px;
+  color: #bdbdbd;
+  font-size: 0.7rem;
+}
+
+/* TESTIMONIALS */
+
+.home-testimonials {
+  background: #050505;
+}
+
+.home-testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  max-width: 1100px;
+  margin: 42px auto 0;
+}
+
+.home-testimonial-card {
+  padding: 28px;
+  border: 1px solid #262626;
+  border-radius: 10px;
+  background: #0d0d0d;
+}
+
+.home-testimonial-card blockquote {
+  margin-top: 14px;
+  color: #cfcfcf;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.home-testimonial-card figcaption {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #252525;
+}
+
+.home-testimonial-card figcaption strong {
+  color: white;
+}
+
+.home-testimonial-card figcaption span {
+  margin-top: 3px;
+  color: #d9a441;
+  font-size: 0.7rem;
+}
+
+.home-no-testimonials {
+  max-width: 700px;
+  margin: 42px auto 0;
+  padding: 45px 25px;
+  border: 1px solid #272727;
+  border-radius: 12px;
+  background: #0c0c0c;
+  text-align: center;
+}
+
+.home-no-testimonials-icon {
+  font-size: 28px;
+  filter: grayscale(1);
+}
+
+.home-no-testimonials h3 {
+  margin-top: 12px;
+  color: white;
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  letter-spacing: 0.05em;
+}
+
+.home-no-testimonials p {
+  margin-top: 5px;
+  color: #777;
+  font-size: 0.85rem;
+}
+
+/* CONTACT */
+
+.home-contact-section {
+  padding: 90px 0;
+  background: #0b0b0b;
+  border-top: 1px solid #222;
+}
+
+.home-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.home-contact-title {
+  margin-top: 12px;
+  color: white;
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 6vw, 6rem);
+  line-height: 0.9;
+}
+
+.home-contact-title span {
+  color: #d9a441;
+}
+
+.home-contact-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 35px;
+}
+
+.home-contact-details strong {
+  color: #d9a441;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+}
+
+.home-contact-details p {
+  margin-top: 7px;
+  color: #999;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.home-contact-details a:hover {
+  color: #d9a441;
+}
+
+.home-contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.home-map {
+  min-height: 400px;
+  overflow: hidden;
+  border: 1px solid #292929;
+  border-radius: 10px;
+}
+
+.home-map iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  border: 0;
+  filter: grayscale(0.8);
+}
+
+/* ================================================================
+   MOBILE
+================================================================ */
+
+@media (max-width: 767px) {
+
+  .home-hero {
+    min-height: 680px;
+    height: 82svh;
+  }
+
+  .home-hero-overlay {
+    background:
+      linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.96) 0%,
+        rgba(0, 0, 0, 0.72) 40%,
+        rgba(0, 0, 0, 0.25) 100%
+      );
+  }
+
+  .home-hero-content {
+    padding-bottom: 45px;
+  }
+
+  .home-hero-title {
+    font-size: clamp(3.8rem, 17vw, 5.3rem);
+    line-height: 0.82;
+  }
+
+  .home-hero-copy {
+    margin-top: 18px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .home-hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  .home-hero-actions .btn-gold,
+  .home-hero-actions .btn-outline {
+    width: 100%;
+    min-height: 50px;
+  }
+
+  /* VALUE CARDS */
+
+  .home-value-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .home-value-item {
+    min-height: 105px;
+    padding: 12px 5px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 7px;
+    text-align: center;
+    border-right: 1px solid #242424;
+  }
+
+  .home-value-icon {
+    width: 31px;
+    height: 31px;
+    font-size: 14px;
+  }
+
+  .home-value-item h3 {
+    font-family: var(--font-body);
+    font-size: 0.62rem;
+    line-height: 1.15;
+    letter-spacing: 0;
+  }
+
+  .home-value-item p {
+    display: none;
+  }
+
+  /* SECTIONS */
+
+  .home-section {
+    padding: 55px 0;
+  }
+
+  .home-section-heading-row {
+    align-items: flex-end;
+  }
+
+  .home-section-heading-row .home-view-link {
+    font-size: 0.62rem;
+  }
+
+  /* MEMBERSHIP */
+
+  .home-plans-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .home-plans-grid > div {
+    min-height: auto;
+    padding: 19px;
+  }
+
+  /* FACILITIES */
+
+  .home-facilities-grid {
+    display: flex;
+    gap: 10px;
+    margin-top: 28px;
+    padding-bottom: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .home-facilities-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .home-facility-card {
+    min-width: 78vw;
+    min-height: 205px;
+    flex: 0 0 78vw;
+    scroll-snap-align: start;
+  }
+
+  /* TESTIMONIALS */
+
+  .home-testimonial-grid {
+    display: flex;
+    gap: 10px;
+    margin-top: 28px;
+    padding-bottom: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .home-testimonial-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .home-testimonial-card {
+    min-width: 84vw;
+    flex: 0 0 84vw;
+    scroll-snap-align: start;
+  }
+
+  .home-no-testimonials {
+    margin-top: 28px;
+    padding: 35px 20px;
+  }
+
+  /* CONTACT */
+
+  .home-contact-section {
+    padding: 60px 0;
+  }
+
+  .home-contact-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .home-contact-title {
+    font-size: 4rem;
+  }
+
+  .home-contact-details {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-top: 28px;
+  }
+
+  .home-contact-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .home-contact-actions a {
+    width: 100%;
+  }
+
+  .home-map,
+  .home-map iframe {
+    min-height: 280px;
+  }
+}
+
+/* Extra-small phones */
+
+@media (max-width: 390px) {
+  .home-hero {
+    min-height: 640px;
+  }
+
+  .home-hero-title {
+    font-size: 3.5rem;
+  }
+
+  .home-value-item h3 {
+    font-size: 0.56rem;
+  }
+
+  .home-contact-title {
+    font-size: 3.4rem;
+  }
+}
+/* MOBILE SITE NAV */
+
+.mobile-site-nav {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .mobile-site-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 60;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    height: 67px;
+
+    border-top: 1px solid #292929;
+
+    background: rgba(8, 8, 8, 0.96);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .mobile-site-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 3px;
+
+    color: #777;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .mobile-site-nav-item span {
+    font-size: 19px;
+    line-height: 1;
+  }
+
+  .mobile-site-nav-item.active {
+    color: #d9a441;
+  }
+
+  .mobile-site-nav-item.active span {
+    color: #d9a441;
+  }
+
+  body {
+    padding-bottom: 67px;
+  }
+}
