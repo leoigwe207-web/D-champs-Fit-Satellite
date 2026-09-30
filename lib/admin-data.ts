@@ -383,85 +383,66 @@ export async function getAdminAttendance(date?: string) {
   if (isDemoMode()) {
     const rows = DEMO_ATTENDANCE.map((a, i) => ({
       ...a,
-
-      member_name:
-        DEMO_ADMIN_MEMBERS[
-          i % DEMO_ADMIN_MEMBERS.length
-        ].full_name,
-
-      member_code:
-        DEMO_ADMIN_MEMBERS[
-          i % DEMO_ADMIN_MEMBERS.length
-        ].member_code,
+      member_name: DEMO_ADMIN_MEMBERS[i % DEMO_ADMIN_MEMBERS.length].full_name,
+      member_code: DEMO_ADMIN_MEMBERS[i % DEMO_ADMIN_MEMBERS.length].member_code,
     }));
 
     const selectedDate =
       date ??
-      new Date().toISOString().slice(0, 10);
+      new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Africa/Lagos",
+      }).format(new Date());
 
-    return rows.filter(
-      (r) =>
-        r.checkin_at.slice(0, 10) === selectedDate
-    );
+    return rows.filter((r) => r.checkin_at.slice(0, 10) === selectedDate);
   }
 
-  const sb = await getSB();
+  // Admin/staff attendance must read all members' check-ins. The normal
+  // authenticated Supabase client is subject to member-ownership RLS,
+  // which can correctly allow a member to see their own row while hiding
+  // that same row from the admin dashboard. Authorize first, then use the
+  // server-only service-role client for this admin-only read.
+  const currentUser = await getCurrentUser();
 
-  if (!sb) {
-    throw new Error("Supabase is not configured.");
+  if (!currentUser || (currentUser.role !== "admin" && currentUser.role !== "staff")) {
+    throw new Error("You are not authorized to view attendance.");
   }
 
-  let query = sb
+  const admin = createAdminClient();
+
+  let query = admin
     .from("attendance")
-    .select(
-      "id, checkin_at, location, status, members(member_code, profiles(full_name))"
-    )
+    .select("id, checkin_at, location, status, members(member_code, profiles(full_name))")
     .order("checkin_at", { ascending: false })
     .limit(500);
 
   if (date) {
+    // Interpret the selected calendar date in Lagos time, matching the
+    // timezone used when the QR check-in is validated.
+    const startOfDay = new Date(date + "T00:00:00+01:00");
+    const nextDay = new Date(startOfDay);
+    nextDay.setDate(nextDay.getDate() + 1);
+
     query = query
-      .gte(
-        "checkin_at",
-        `${date}T00:00:00`
-      )
-      .lte(
-        "checkin_at",
-        `${date}T23:59:59`
-      );
+      .gte("checkin_at", startOfDay.toISOString())
+      .lt("checkin_at", nextDay.toISOString());
   }
 
   const { data, error } = await query;
 
   if (error) throw error;
-
   if (!data) return [];
 
   return data.map((row: Record<string, unknown>) => {
-    const m =
-      (row.members as Record<string, unknown> | null) ?? {};
-
-    const prof =
-      (m.profiles as Record<string, unknown> | null) ?? {};
+    const m = (row.members as Record<string, unknown> | null) ?? {};
+    const prof = (m.profiles as Record<string, unknown> | null) ?? {};
 
     return {
-      id:
-        String(row.id),
-
-      checkin_at:
-        String(row.checkin_at ?? ""),
-
-      location:
-        String(row.location ?? "—"),
-
-      status:
-        String(row.status ?? "Checked in"),
-
-      member_name:
-        String(prof.full_name ?? "—"),
-
-      member_code:
-        String(m.member_code ?? "—"),
+      id: String(row.id),
+      checkin_at: String(row.checkin_at ?? ""),
+      location: String(row.location ?? "—"),
+      status: String(row.status ?? "Checked in"),
+      member_name: String(prof.full_name ?? "—"),
+      member_code: String(m.member_code ?? "—"),
     };
   });
 }
