@@ -379,7 +379,16 @@ export async function getAdminBookings() {
   });
 }
 
-export async function getAdminAttendance(date?: string) {
+export type AdminAttendanceRow = {
+  id: string;
+  checkin_at: string;
+  location: string;
+  status: string;
+  member_name: string;
+  member_code: string;
+};
+
+export async function getAdminAttendance(date?: string): Promise<AdminAttendanceRow[]> {
   if (isDemoMode()) {
     const rows = DEMO_ATTENDANCE.map((a, i) => ({
       ...a,
