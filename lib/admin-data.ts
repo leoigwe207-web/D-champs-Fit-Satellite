@@ -1,5 +1,7 @@
 import { DEMO_ATTENDANCE, DEMO_BOOKINGS, DEMO_PAYMENTS } from "./member-data";
 import { isDemoMode } from "./env";
+import { getCurrentUser } from "./auth";
+import { createAdminClient } from "./supabase-admin";
 
 export type AdminMember = {
   id: string;
