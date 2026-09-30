@@ -30,7 +30,7 @@ export default async function TrainingPage() {
         <div className="container-page grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((sv, i) => (
             <div key={sv.id} className="card-dark">
-              <span className="font-display text-5xl text-neutral-800">{String(i + 1).padStart(2, "0")}</span>
+              <span className="font-display text-5xl text-[#D4AF37]">{String(i + 1).padStart(2, "0")}</span>
               <h3 className="mt-2 font-display text-2xl tracking-wider2 text-white">{sv.title}</h3>
               <p className="mt-2 text-sm text-neutral-400">{sv.description}</p>
             </div>
@@ -45,7 +45,6 @@ export default async function TrainingPage() {
             One-on-one coaching is available — book a session and reception will
             match you with the right trainer for your goal.
           </p>
-          <Link href="/book" className="btn-gold mt-7">Book a Session</Link>
         </div>
       </section>
     </>
