@@ -10,7 +10,11 @@ export default async function AdminAttendancePage({
   searchParams: Promise<{ date?: string; range?: string }>;
 }) {
   const params = await searchParams;
-  const date = params.date ?? new Date().toISOString().slice(0, 10);
+  const date =
+    params.date ??
+    new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Africa/Lagos",
+    }).format(new Date());
   const rows = await getAdminAttendance(params.range === "all" ? undefined : date);
 
   return (
