@@ -6,7 +6,10 @@ import { useState } from "react";
 export default function AttendanceFilter() {
   const router = useRouter();
   const params = useSearchParams();
-  const [date, setDate] = useState(params.get("date") ?? new Date().toISOString().slice(0, 10));
+  const today = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Africa/Lagos",
+  }).format(new Date());
+  const [date, setDate] = useState(params.get("date") ?? today);
 
   function apply(d: string) {
     setDate(d);
@@ -28,7 +31,7 @@ export default function AttendanceFilter() {
         All records
       </button>
       <button
-        onClick={() => apply(new Date().toISOString().slice(0, 10))}
+        onClick={() => apply(today)}
         className="btn-gold !px-4 !py-2 !text-sm"
       >
         Today
