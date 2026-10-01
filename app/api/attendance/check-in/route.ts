@@ -239,6 +239,28 @@ export async function POST(request: Request) {
         full_name?: string | null;
       } | null) ?? null;
 
+    let memberName = profile?.full_name?.trim() ?? "";
+
+    // Some older accounts have a profile row without full_name.
+    // Use Auth metadata as a non-destructive fallback so the scanner
+    // result still identifies the member.
+    if (!memberName) {
+      const { data: authUser } = await supabase.auth.admin.getUserById(
+        member.user_id
+      );
+      const metadata = authUser.user?.user_metadata as
+        | Record<string, unknown>
+        | undefined;
+
+      memberName = String(
+        metadata?.full_name ??
+          metadata?.name ??
+          metadata?.display_name ??
+          authUser.user?.email ??
+          ""
+      ).trim();
+    }
+
     // ----------------------------------------------------------
     // 9. Success
     // ----------------------------------------------------------
@@ -247,7 +269,7 @@ export async function POST(request: Request) {
       message: "Check-in successful.",
       member: {
         memberCode: member.member_code,
-        name: profile?.full_name ?? "Member",
+        name: memberName || "Member",
         plan: member.plan_name,
         status: member.status,
       },
