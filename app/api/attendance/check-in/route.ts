@@ -215,6 +215,7 @@ export async function POST(request: Request) {
           user_id: member.user_id,
           member_id: member.id,
           check_in_method: "qr",
+          checkin_at: new Date().toISOString(),
           location: "Chevron Estate — Main Entrance",
           status: "Checked in",
         })
