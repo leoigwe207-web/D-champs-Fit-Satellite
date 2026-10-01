@@ -422,7 +422,7 @@ export async function getAdminAttendance(date?: string): Promise<AdminAttendance
 
   let query = admin
     .from("attendance")
-    .select("id, checkin_at, location, status, members(member_code, profiles(full_name))")
+    .select("id, checkin_at, location, status, members(user_id, member_code, profiles(full_name))")
     .order("checkin_at", { ascending: false })
     .limit(500);
 
@@ -443,17 +443,45 @@ export async function getAdminAttendance(date?: string): Promise<AdminAttendance
   if (error) throw error;
   if (!data) return [];
 
-  return data.map((row: Record<string, unknown>) => {
-    const m = (row.members as Record<string, unknown> | null) ?? {};
-    const prof = (m.profiles as Record<string, unknown> | null) ?? {};
+  const rows = await Promise.all(
+    data.map(async (row: Record<string, unknown>) => {
+      const m = (row.members as Record<string, unknown> | null) ?? {};
+      const prof = (m.profiles as Record<string, unknown> | null) ?? {};
 
-    return {
-      id: String(row.id),
-      checkin_at: String(row.checkin_at ?? ""),
-      location: String(row.location ?? "—"),
-      status: String(row.status ?? "Checked in"),
-      member_name: String(prof.full_name ?? "—"),
-      member_code: String(m.member_code ?? "—"),
-    };
-  });
+      let memberName = String(prof.full_name ?? "").trim();
+
+      // Some existing accounts have a profile row but no full_name.
+      // Fall back to Supabase Auth metadata so the admin attendance table
+      // can still identify the member without changing the schema.
+      if (!memberName) {
+        const userId = String(m.user_id ?? "").trim();
+
+        if (userId) {
+          const { data: authUser } = await admin.auth.admin.getUserById(userId);
+          const metadata = authUser.user?.user_metadata as
+            | Record<string, unknown>
+            | undefined;
+
+          memberName = String(
+            metadata?.full_name ??
+              metadata?.name ??
+              metadata?.display_name ??
+              authUser.user?.email ??
+              ""
+          ).trim();
+        }
+      }
+
+      return {
+        id: String(row.id),
+        checkin_at: String(row.checkin_at ?? ""),
+        location: String(row.location ?? "—"),
+        status: String(row.status ?? "Checked in"),
+        member_name: memberName || "Member",
+        member_code: String(m.member_code ?? "—"),
+      };
+    })
+  );
+
+  return rows;
 }
